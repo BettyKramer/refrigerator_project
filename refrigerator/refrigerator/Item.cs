@@ -1,23 +1,36 @@
 ﻿namespace refrigerator
 {
-    class Item
+    public enum typefood {food=1, drink };
+
+    public enum kashre { MEAT, MILK, PARVE };
+
+
+    public class Item
     {
         public string itemName { get; }
         public int itemId { get; }
-        foodOrDrnik fd ;
-        kashroot kasher;
+       
         public DateTime expiryDate { get; }
         public int size { get; }
 
-        public void toString()
-        {
-            Console.WriteLine("item name: "+itemName+" item id: "+itemId+" type: "+fd+" kasher: "+kasher+
-                " expiry date: "+expiryDate+" size: "+size);
+        public int foodType { set; get; }
+        public int foodKashrut { set; get; };
+
+        public Item(string itemName, int foodType) { 
+            this.itemName = itemName;
+            this.foodType = foodType;
         }
 
-        enum foodOrDrnik { FOOD, DRINK }
-        enum kashroot { MEAT, MMILK ,PARVE}
+        public void toString()
+        {
+            Console.WriteLine("item name: " + itemName + " item id: " + itemId + " type: " + typefood.FOOD + " kasher: " + kashre.MILK +
+                " expiry date: " + expiryDate + " size: " + size);
+        }
+
+    
     }
+
+
 
 }
 
