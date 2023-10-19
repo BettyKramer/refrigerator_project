@@ -29,7 +29,7 @@ namespace refrigerator
         //2
         public int placeLeftInRefrigerator()
         {
-            int sum = 0,sumb=0;
+            int sum = 0, sumb = 0;
 
             foreach (Shelf shelf in shelves)
             {
@@ -37,8 +37,8 @@ namespace refrigerator
                 {
                     sum += item.size;
                 }
-                sumb+=shelf.placeInShelf - sum;
-               
+                sumb += shelf.placeInShelf - sum;
+
 
             }
 
@@ -98,18 +98,108 @@ namespace refrigerator
 
         public List<Shelf> sortByLeftSpace()
         {
-            List<Shelf> sortedBySpace=new List<Shelf>();
+            List<Shelf> sortedBySpace = new List<Shelf>();
             foreach (Shelf shelf in shelves)
             {
-                shelf.placeInShelf= shelf.getPlaceInShelf();
+                shelf.placeInShelf = shelf.getPlaceInShelf();
                 sortedBySpace.Add(shelf);
             }
             sortedBySpace.Sort();
             return sortedBySpace;
         }
+        public List<Item> deleteByParameter(int foodKashrut, int days)
+        {
+            List<Item> toThrow = new List<Item>();
+            foreach (Shelf shelf in shelves)
+            {
+                foreach (Item item in shelf.items)
+                {
+                    if (item.foodKashrut == foodKashrut && item.expiryDate.AddDays(3) >= DateTime.Today)
+                    {
+                        toThrow.Add(item);
+                        shelf.items.Remove(item);
+                    }
+
+                }
+            }
+            return toThrow;
+
+        }
+        public void returnItem(List<Item> items, int i)
+        {
+            this.shelves[i].items.AddRange(items);
+        }
+        public int sumSpace(List<Item> items)
+        {
+            int sum = 0;
+            foreach (Item item in items)
+            {
+                sum += item.size;
+            }
+            return sum;
+        }
+        public void goShopping()
+        {
+            List<Item> toThrowItem = new List<Item>();
+            if (this.placeLeftInRefrigerator() >= 29) { Console.WriteLine("you can go shopping now"); }
+            else
+            {
+                if (this.placeLeftInRefrigerator() >= 20) { Console.WriteLine("you can go shopping"); }
+                else { this.throwExpired(); }
+
+                if (this.placeLeftInRefrigerator() >= 20) { Console.WriteLine("you can go shopping"); }
+
+                else
+                {
+
+                    toThrowItem = this.deleteByParameter(1, 3);
+                    if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) >= 20)
+                    {
+                        Console.WriteLine("we threw the next items: ");
+                        foreach (Item item in toThrowItem) { Console.WriteLine(item.itemName); }
+                        Console.WriteLine("you can go now");
+                    }
+                    else
+                    {
+                        List<Item> toThrowItem2 = new List<Item>();
+                        toThrowItem2 = this.deleteByParameter(2, 7);
+                        if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) >= 20)
+                        {
+                            Console.WriteLine("we threw the next items: ");
+                            foreach (Item item in toThrowItem) { Console.WriteLine(item.itemName); }
+                            foreach (Item item in toThrowItem2) { Console.WriteLine(item.itemName); }
+                            Console.WriteLine("you can go now");
+                        }
+                        else
+                        {
+                            List<Item> toThrowItem3 = new List<Item>();
+                            toThrowItem2 = this.deleteByParameter(0, 2);
+                            if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) + sumSpace(toThrowItem3) >= 20)
+                            {
+                                Console.WriteLine("we threw the next items: ");
+                                foreach (Item item in toThrowItem) { Console.WriteLine(item.itemName); }
+                                foreach (Item item in toThrowItem2) { Console.WriteLine(item.itemName); }
+                                foreach (Item item in toThrowItem3) { Console.WriteLine(item.itemName); }
+                                Console.WriteLine("you can go now");
+                            }
+                            else
+                            {
+                                returnItem(toThrowItem, 0);
+                                returnItem(toThrowItem2, 1);
+                                returnItem(toThrowItem3, 2);
+                                Console.WriteLine("you can't go shopping right now");
+                            }
+
+                        }
+                    }
+                }
+
+
+            }
+        }
+
 
     }
-
 }
 
 
