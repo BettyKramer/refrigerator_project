@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace refrigerator
 {
-    internal class refrigerator
+    internal class Refrigerator
     {
         public int refrigeratorId { get; }
         public string model { get; }
@@ -29,13 +29,20 @@ namespace refrigerator
         //2
         public int placeLeftInRefrigerator()
         {
-            int sum = 0;
+            int sum = 0,sumb=0;
+
             foreach (Shelf shelf in shelves)
             {
-                sum += shelf.getPlaceInShelf();
+                foreach (Item item in shelf.items)
+                {
+                    sum += item.size;
+                }
+                sumb+=shelf.placeInShelf - sum;
+               
+
             }
 
-            return sum;
+            return sumb;
         }
 
         //4
@@ -60,25 +67,50 @@ namespace refrigerator
         }
 
         //6
-        public List<Item> itemsYouCanEat( int foodType, int foodKashrut)
+        public List<Item> itemsYouCanEat(int foodType, int foodKashrut)
         {
             List<Item> itemToEat = new List<Item>();
-            foreach(Shelf shelf in shelves)
+            foreach (Shelf shelf in shelves)
             {
-                foreach(Item item in shelf.items)
+                foreach (Item item in shelf.items)
                 {
-                    if(item.expiryDate<=DateTime.Today&& item.foodType == foodType&&item.foodKashrut==foodKashrut)
+                    if (item.expiryDate <= DateTime.Today && item.foodType == foodType && item.foodKashrut == foodKashrut)
                     {
                         itemToEat.Add(item);
                     }
-                      
+
                 }
             }
             return itemToEat;
         }
 
+        //8
+        public List<Item> sortByExpiryDate()
+        {
+            List<Item> sortedByExpiry = new List<Item>();
+            foreach (Shelf shelf in shelves)
+            {
+                foreach (Item item in shelf.items) { sortedByExpiry.Add(item); }
+            }
+            sortedByExpiry.Sort((x, y) => DateTime.Compare(x.expiryDate, y.expiryDate));
+            return sortedByExpiry;
+        }
+
+        public List<Shelf> sortByLeftSpace()
+        {
+            List<Shelf> sortedBySpace=new List<Shelf>();
+            foreach (Shelf shelf in shelves)
+            {
+                shelf.placeInShelf= shelf.getPlaceInShelf();
+                sortedBySpace.Add(shelf);
+            }
+            sortedBySpace.Sort();
+            return sortedBySpace;
+        }
 
     }
 
- 
 }
+
+
+

@@ -2,10 +2,10 @@
 {
     internal class Shelf
     {
-        private int shelfId { get; }
+        public int shelfId { get; }
         public int floorNumber { get; }
 
-        public int placeInShelf { get; }
+        public int placeInShelf { get; set; }
 
         public List<Item> items;
         public Item getItem()

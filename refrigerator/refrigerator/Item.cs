@@ -14,7 +14,7 @@
         public int size { get; }
 
         public int foodType { set; get; }
-        public int foodKashrut { set; get; };
+        public int foodKashrut { set; get; }
 
         public Item(string itemName, int foodType) { 
             this.itemName = itemName;
@@ -23,7 +23,7 @@
 
         public void toString()
         {
-            Console.WriteLine("item name: " + itemName + " item id: " + itemId + " type: " + typefood.FOOD + " kasher: " + kashre.MILK +
+            Console.WriteLine("item name: " + itemName + " item id: " + itemId + " type: " + foodType + " kasher: " + foodKashrut +
                 " expiry date: " + expiryDate + " size: " + size);
         }
 
