@@ -1,0 +1,15 @@
+C:\Code\refrigerator_project\refrigerator\refrigerator\bin\Debug\net7.0\refrigerator.exe
+C:\Code\refrigerator_project\refrigerator\refrigerator\bin\Debug\net7.0\refrigerator.deps.json
+C:\Code\refrigerator_project\refrigerator\refrigerator\bin\Debug\net7.0\refrigerator.runtimeconfig.json
+C:\Code\refrigerator_project\refrigerator\refrigerator\bin\Debug\net7.0\refrigerator.dll
+C:\Code\refrigerator_project\refrigerator\refrigerator\bin\Debug\net7.0\refrigerator.pdb
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.csproj.AssemblyReference.cache
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.AssemblyInfoInputs.cache
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.AssemblyInfo.cs
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.csproj.CoreCompileInputs.cache
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.dll
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refint\refrigerator.dll
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.pdb
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\refrigerator.genruntimeconfig.cache
+C:\Code\refrigerator_project\refrigerator\refrigerator\obj\Debug\net7.0\ref\refrigerator.dll

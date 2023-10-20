@@ -11,13 +11,33 @@ namespace refrigerator
         public int refrigeratorId { get; }
         public string model { get; }
         public string color { get; }
-        public void fillItem()
-        {
-            Item myItem = new Item("salamy", (int)typefood.food);
-        }
+   
+     
         public int numOfShelves { get; }
 
-        List<Shelf> shelves;
+        public List<Shelf> shelves { get;set; }
+
+
+       public Refrigerator()
+        {
+            refrigeratorId = 1;
+            this.model = "bocsh";
+            this.color = "grey";
+            this.numOfShelves = 5;
+            shelves = new List<Shelf>();
+        }
+
+        public Refrigerator(int refId,string model, string color,int numOfShelves)
+        {
+            this.refrigeratorId = refId;
+            this.model = model;
+            this.color = color;
+            this.numOfShelves= numOfShelves;
+            shelves = new List<Shelf>();
+        }
+
+
+
 
         public void toString()
         {
@@ -54,6 +74,22 @@ namespace refrigerator
                 if (item != null) { return item; }
             }
             Console.WriteLine("the item is not here");
+            return null;
+        }
+
+        public Item getItemByName(string name)
+        {
+            foreach (Shelf shelf in shelves)
+            {
+                foreach (Item item in shelf.items)
+                {
+                    if (item.itemName.Equals(name))
+                    {
+                        return item;
+                    }
+                }
+            }
+            Console.WriteLine("there is no such an item");
             return null;
         }
 
@@ -107,6 +143,18 @@ namespace refrigerator
             sortedBySpace.Sort();
             return sortedBySpace;
         }
+
+
+        public void printAllItems()
+        {
+            foreach(Shelf shelf in shelves)
+            {
+                foreach(Item item in shelf.items) { Console.WriteLine(item.itemName); }
+            }
+        }
+
+
+
         public List<Item> deleteByParameter(int foodKashrut, int days)
         {
             List<Item> toThrow = new List<Item>();
@@ -197,7 +245,7 @@ namespace refrigerator
 
             }
         }
-
+   
 
     }
 }

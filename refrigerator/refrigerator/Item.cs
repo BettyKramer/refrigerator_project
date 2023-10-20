@@ -16,10 +16,17 @@
         public int foodType { set; get; }
         public int foodKashrut { set; get; }
 
-        public Item(string itemName, int foodType) { 
+        public Item(string itemName,int id, int foodType, int foodKasher, DateTime epx, int size) {
+           
             this.itemName = itemName;
+            this.itemId = id;
             this.foodType = foodType;
+            this.foodKashrut = foodKasher;
+            this.expiryDate = epx;
+            this.size = size;
         }
+        
+     
 
         public void toString()
         {
