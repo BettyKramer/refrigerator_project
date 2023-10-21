@@ -2,8 +2,8 @@
 {
     internal class Shelf
     {
-        public int shelfId { get; }
-        public int floorNumber { get; }
+        public int shelfId { get; set; }
+        public int floorNumber { get; set; }
 
         public int placeInShelf { get; set; }
 
@@ -11,6 +11,22 @@
         public Item getItem()
         {
             return this.items[0];
+        }
+
+        public Shelf(int shelfId, int floorNumber, int placeInShelf)
+        {
+            this.shelfId = shelfId;
+            this.floorNumber = floorNumber;
+            this.placeInShelf = placeInShelf;
+            this.items =new List<Item>();
+        }
+
+        public Shelf()
+        {
+            this.shelfId = 1;
+            this.floorNumber = 1;
+            this.placeInShelf = 100;
+            this.items = new List<Item>();
         }
 
         public int getPlaceInShelf()
@@ -28,6 +44,7 @@
         public void addItem(Item item)
         {
             this.items.Add(item);
+            this.placeInShelf -= item.size;
         }
 
         public void toString()
@@ -40,8 +57,12 @@
         {
             foreach (Item item in this.items)
             {
-                if(itemid==item.itemId)
+                if (itemid == item.itemId)
+                {
+                    this.placeInShelf += item.size;
                     return item;
+                }
+                   
             }
             return null;
         }
@@ -52,8 +73,9 @@
             {
                 if (item.expiryDate < DateTime.Today)
                 {
-                    Console.WriteLine("found something expired");
+                    Console.WriteLine("found something expired"+item.itemName);
                     this.items.Remove(item);
+                    this.placeInShelf += item.size;
                 }
             }
         }

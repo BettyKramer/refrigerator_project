@@ -41,28 +41,20 @@ namespace refrigerator
 
         public void toString()
         {
-            Console.WriteLine("refrigerator id: " + refrigeratorId + " model: " + model + " color: "
-                + color + " num of shelves:" + numOfShelves);
+            Console.WriteLine("refrigerator id: " + refrigeratorId + "\n model: " + model + "\n color: "
+                + color + "\n num of shelves:" + numOfShelves);
 
         }
 
         //2
         public int placeLeftInRefrigerator()
         {
-            int sum = 0, sumb = 0;
-
-            foreach (Shelf shelf in shelves)
+            int sum = 0;
+            foreach(Shelf shelf in shelves)
             {
-                foreach (Item item in shelf.items)
-                {
-                    sum += item.size;
-                }
-                sumb += shelf.placeInShelf - sum;
-
-
+                sum += shelf.placeInShelf;
             }
-
-            return sumb;
+            return sum;
         }
 
         //4
@@ -71,7 +63,11 @@ namespace refrigerator
             foreach (Shelf shelf in shelves)
             {
                 Item item = shelf.getItemFromShelf(itemid);
-                if (item != null) { return item; }
+                if (item != null) 
+                {
+                    shelf.placeInShelf += item.size;
+                    return item; 
+                }
             }
             Console.WriteLine("the item is not here");
             return null;
@@ -85,6 +81,9 @@ namespace refrigerator
                 {
                     if (item.itemName.Equals(name))
                     {
+                        shelf.placeInShelf += item.size;
+                        shelf.items.Remove(item);
+                        Console.WriteLine("we removed your item");
                         return item;
                     }
                 }
@@ -96,9 +95,19 @@ namespace refrigerator
         //5
         public void throwExpired()
         {
-            foreach (Shelf shelf in shelves)
+            foreach (Shelf shelf in this.shelves)
             {
-                shelf.throwEexpired();
+                for(int i = 0;i < shelf.items.Count ;i++)
+                {
+                    if (shelf.items[i].expiryDate < DateTime.Today)
+                    {
+                        Console.WriteLine("found something expired :  "+ shelf.items[i].itemName);
+                        shelf.placeInShelf += shelf.items[i].size;
+                        shelf.items.Remove(shelf.items[i]);
+                        
+                    }
+                }
+                
             }
         }
 
@@ -137,17 +146,17 @@ namespace refrigerator
             List<Shelf> sortedBySpace = new List<Shelf>();
             foreach (Shelf shelf in shelves)
             {
-                shelf.placeInShelf = shelf.getPlaceInShelf();
                 sortedBySpace.Add(shelf);
             }
-            sortedBySpace.Sort();
+            sortedBySpace.Sort((x,y)=>x.placeInShelf.CompareTo(y.placeInShelf));
             return sortedBySpace;
         }
 
 
         public void printAllItems()
         {
-            foreach(Shelf shelf in shelves)
+            Console.WriteLine("items in the refrigerator: ");
+            foreach (Shelf shelf in shelves)
             {
                 foreach(Item item in shelf.items) { Console.WriteLine(item.itemName); }
             }
@@ -160,12 +169,12 @@ namespace refrigerator
             List<Item> toThrow = new List<Item>();
             foreach (Shelf shelf in shelves)
             {
-                foreach (Item item in shelf.items)
+                for(int i=0; i<shelf.items.Count;i++)
                 {
-                    if (item.foodKashrut == foodKashrut && item.expiryDate.AddDays(3) >= DateTime.Today)
+                    if (shelf.items[i]!=null&&shelf.items[i].foodKashrut == foodKashrut && shelf.items[i].expiryDate.AddDays(3) >= DateTime.Today)
                     {
-                        toThrow.Add(item);
-                        shelf.items.Remove(item);
+                        toThrow.Add(shelf.items[i]);
+                        shelf.items.Remove(shelf.items[i]);
                     }
 
                 }
@@ -221,7 +230,7 @@ namespace refrigerator
                         else
                         {
                             List<Item> toThrowItem3 = new List<Item>();
-                            toThrowItem2 = this.deleteByParameter(0, 2);
+                            toThrowItem3 = this.deleteByParameter(0, 2);
                             if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) + sumSpace(toThrowItem3) >= 20)
                             {
                                 Console.WriteLine("we threw the next items: ");

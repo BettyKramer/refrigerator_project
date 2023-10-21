@@ -2,19 +2,21 @@
 {
     public enum typefood {food=1, drink };
 
-    public enum kashre { MEAT, MILK, PARVE };
+    public enum kashre { MEAT=1, MILK, PARVE };
 
 
     public class Item
     {
-        public string itemName { get; }
-        public int itemId { get; }
+        public string itemName { get; set; }
+        public int itemId { get; set; }
        
-        public DateTime expiryDate { get; }
-        public int size { get; }
+        public DateTime expiryDate { get; set; }
+        public int size { get; set; }
 
         public int foodType { set; get; }
         public int foodKashrut { set; get; }
+
+
 
         public Item(string itemName,int id, int foodType, int foodKasher, DateTime epx, int size) {
            
@@ -26,6 +28,17 @@
             this.size = size;
         }
         
+
+
+        public Item()
+        {
+            this.itemName = "eggs";
+            this.itemId = 10;
+            this.foodType = 1;
+            this.foodKashrut = 3;
+            this.expiryDate = DateTime.Now;
+            this.size = 10;
+        }
      
 
         public void toString()
