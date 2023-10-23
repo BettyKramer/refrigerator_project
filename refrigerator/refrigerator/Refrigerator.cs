@@ -79,7 +79,7 @@ namespace refrigerator
             {
                 foreach (Item item in shelf.items)
                 {
-                    if (item.itemName.Equals(name))
+                    if (item.Name.Equals(name))
                     {
                         shelf.placeInShelf += item.size;
                         shelf.items.Remove(item);
@@ -101,7 +101,7 @@ namespace refrigerator
                 {
                     if (shelf.items[i].expiryDate < DateTime.Today)
                     {
-                        Console.WriteLine("found something expired :  "+ shelf.items[i].itemName);
+                        Console.WriteLine("found something expired :  "+ shelf.items[i].Name);
                         shelf.placeInShelf += shelf.items[i].size;
                         shelf.items.Remove(shelf.items[i]);
                         
@@ -119,7 +119,7 @@ namespace refrigerator
             {
                 foreach (Item item in shelf.items)
                 {
-                    if (item.expiryDate <= DateTime.Today && item.foodType == foodType && item.foodKashrut == foodKashrut)
+                    if (item.expiryDate <= DateTime.Today && item.type == foodType && item.Kashrut == foodKashrut)
                     {
                         itemToEat.Add(item);
                     }
@@ -158,7 +158,7 @@ namespace refrigerator
             Console.WriteLine("items in the refrigerator: ");
             foreach (Shelf shelf in shelves)
             {
-                foreach(Item item in shelf.items) { Console.WriteLine(item.itemName); }
+                foreach(Item item in shelf.items) { Console.WriteLine(item.Name); }
             }
         }
 
@@ -171,7 +171,7 @@ namespace refrigerator
             {
                 for(int i=0; i<shelf.items.Count;i++)
                 {
-                    if (shelf.items[i]!=null&&shelf.items[i].foodKashrut == foodKashrut && shelf.items[i].expiryDate.AddDays(3) >= DateTime.Today)
+                    if (shelf.items[i]!=null&&shelf.items[i].Kashrut == foodKashrut && shelf.items[i].expiryDate.AddDays(3) >= DateTime.Today)
                     {
                         toThrow.Add(shelf.items[i]);
                         shelf.items.Remove(shelf.items[i]);
@@ -182,10 +182,12 @@ namespace refrigerator
             return toThrow;
 
         }
+
         public void returnItem(List<Item> items, int i)
         {
             this.shelves[i].items.AddRange(items);
         }
+
         public int sumSpace(List<Item> items)
         {
             int sum = 0;
@@ -195,6 +197,7 @@ namespace refrigerator
             }
             return sum;
         }
+
         public void goShopping()
         {
             List<Item> toThrowItem = new List<Item>();
@@ -213,7 +216,7 @@ namespace refrigerator
                     if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) >= 20)
                     {
                         Console.WriteLine("we threw the next items: ");
-                        foreach (Item item in toThrowItem) { Console.WriteLine(item.itemName); }
+                        foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
                         Console.WriteLine("you can go now");
                     }
                     else
@@ -223,8 +226,8 @@ namespace refrigerator
                         if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) >= 20)
                         {
                             Console.WriteLine("we threw the next items: ");
-                            foreach (Item item in toThrowItem) { Console.WriteLine(item.itemName); }
-                            foreach (Item item in toThrowItem2) { Console.WriteLine(item.itemName); }
+                            foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
+                            foreach (Item item in toThrowItem2) { Console.WriteLine(item.Name); }
                             Console.WriteLine("you can go now");
                         }
                         else
@@ -234,9 +237,9 @@ namespace refrigerator
                             if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) + sumSpace(toThrowItem3) >= 20)
                             {
                                 Console.WriteLine("we threw the next items: ");
-                                foreach (Item item in toThrowItem) { Console.WriteLine(item.itemName); }
-                                foreach (Item item in toThrowItem2) { Console.WriteLine(item.itemName); }
-                                foreach (Item item in toThrowItem3) { Console.WriteLine(item.itemName); }
+                                foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
+                                foreach (Item item in toThrowItem2) { Console.WriteLine(item.Name); }
+                                foreach (Item item in toThrowItem3) { Console.WriteLine(item.Name); }
                                 Console.WriteLine("you can go now");
                             }
                             else
@@ -254,7 +257,160 @@ namespace refrigerator
 
             }
         }
-   
+
+
+        public  bool ValidateInput(string input, string type)
+        {
+            switch (type)
+            {
+                case "int":
+                    return int.TryParse(input, out int val);
+                case "date":
+                    return DateTime.TryParse(input, out DateTime val2);
+
+            }
+            return true;
+        }
+
+
+        public void press1()
+        {
+            this.toString();
+            this.printAllItems();
+        }
+
+        public void press2()
+        {
+            Console.WriteLine("place left in the fridge: " + this.placeLeftInRefrigerator());
+        }
+
+        public void press3()
+        {
+            Console.WriteLine("enter name");
+            string input = Console.ReadLine();
+
+            if (!this.ValidateInput(input, "string"))
+            {
+                Console.WriteLine("illigal input");
+                return;
+            }
+            string name = input;
+
+
+            Console.WriteLine("enter id");
+            input = Console.ReadLine();
+            if (!ValidateInput(input, "int"))
+            {
+                Console.WriteLine("illigal input");
+                return;
+            }
+            int id = Convert.ToInt32(input);
+
+
+            Console.WriteLine("enter 1 for food, 2 for drink");
+            input = Console.ReadLine();
+            if (!ValidateInput(input, "int"))
+            {
+                Console.WriteLine("illigal input");
+                return;
+            }
+            int foodOdrink = int.Parse(input);
+
+
+            Console.WriteLine("enter kashrut: 1 for meat, 2 for milk , 3 for parve");
+            input = Console.ReadLine();
+            if (!ValidateInput(input, "int"))
+            {
+                Console.WriteLine("illigal input");
+                return;
+            }
+            int kasher = int.Parse(input);
+
+            Console.WriteLine("enter expiry date (dd/mm/yyyy)");
+            input = Console.ReadLine();
+            if (!ValidateInput(input, "date"))
+            {
+                Console.WriteLine("illigal input");
+                return;
+            }
+            DateTime date = DateTime.Parse(input);
+
+
+            Console.WriteLine("enter size of the item");
+            input = Console.ReadLine();
+            if (!ValidateInput(input, "int"))
+            {
+                Console.WriteLine("illigal input");
+                return;
+            }
+            int size = int.Parse(input);
+
+
+            Item item = new Item(name, id, foodOdrink, kasher, date, size);
+            foreach (Shelf shelf in this.shelves)
+            {
+                if (shelf.placeInShelf >= item.size)
+                {
+                    shelf.items.Add(item);
+                    shelf.placeInShelf -= item.size;
+                    Console.WriteLine("we added your item");
+                    return;
+                }
+
+            }
+            Console.WriteLine("we didnt find a place in the fridge");
+        }
+
+        public void press4()
+        {
+            Console.WriteLine("please the enter item you want to remove");
+            string input = Console.ReadLine();
+            this.getItemByName(input);
+        }
+
+
+
+        public void press5() { this.throwExpired(); }
+
+        public void press6()
+        {
+            Console.WriteLine("what do you want to eat?");
+            string name = Console.ReadLine();
+            Item item = this.getItemByName(name);
+            Console.WriteLine("here is your item: ");
+            item.toString();
+
+        }
+
+        public void press7( )
+        {
+            List<Item> items = this.sortByExpiryDate();
+            foreach (Item item in items) { Console.WriteLine(item.Name + " the expiry date: " + item.expiryDate); }
+        }
+
+        public void press8()
+        {
+            List<Shelf> shelves = this.sortByLeftSpace();
+            foreach (Shelf shelf in shelves) { Console.WriteLine("shelf id: " + shelf.shelfId + " place left:" + shelf.placeInShelf); }
+        }
+        public void press9()
+        {
+            sortFridgeByPlace(refrigerators);
+        }
+
+
+        public void press10()
+        {
+            this.goShopping();
+        }
+
+        static void press100()
+        {
+            Console.WriteLine("bye bye ");
+        }
+
+
+
 
     }
 }
