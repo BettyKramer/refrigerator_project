@@ -1,6 +1,6 @@
 ﻿namespace refrigerator
 {
-    internal class Shelf
+    public class Shelf
     {
         public int shelfId { get; set; }
         public int floorNumber { get; set; }
@@ -57,7 +57,7 @@
         {
             foreach (Item item in this.items)
             {
-                if (itemid == item.itemId)
+                if (itemid == item.Id)
                 {
                     this.placeInShelf += item.size;
                     return item;
@@ -73,7 +73,7 @@
             {
                 if (item.expiryDate < DateTime.Today)
                 {
-                    Console.WriteLine("found something expired"+item.itemName);
+                    Console.WriteLine("found something expired"+item.Name);
                     this.items.Remove(item);
                     this.placeInShelf += item.size;
                 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace refrigerator
 {
-    internal class Refrigerator
+    public class Refrigerator
     {
         public int refrigeratorId { get; }
         public string model { get; }
@@ -273,18 +273,18 @@ namespace refrigerator
         }
 
 
-        public void press1()
+        public void pressed1()
         {
             this.toString();
             this.printAllItems();
         }
 
-        public void press2()
+        public void pressed2()
         {
             Console.WriteLine("place left in the fridge: " + this.placeLeftInRefrigerator());
         }
 
-        public void press3()
+        public void pressed3()
         {
             Console.WriteLine("enter name");
             string input = Console.ReadLine();
@@ -361,7 +361,7 @@ namespace refrigerator
             Console.WriteLine("we didnt find a place in the fridge");
         }
 
-        public void press4()
+        public void pressed4()
         {
             Console.WriteLine("please the enter item you want to remove");
             string input = Console.ReadLine();
@@ -370,9 +370,9 @@ namespace refrigerator
 
 
 
-        public void press5() { this.throwExpired(); }
+        public void pressed5() { this.throwExpired(); }
 
-        public void press6()
+        public void pressed6()
         {
             Console.WriteLine("what do you want to eat?");
             string name = Console.ReadLine();
@@ -382,29 +382,26 @@ namespace refrigerator
 
         }
 
-        public void press7( )
+        public void pressed7( )
         {
             List<Item> items = this.sortByExpiryDate();
             foreach (Item item in items) { Console.WriteLine(item.Name + " the expiry date: " + item.expiryDate); }
         }
 
-        public void press8()
+        public void pressed8()
         {
             List<Shelf> shelves = this.sortByLeftSpace();
             foreach (Shelf shelf in shelves) { Console.WriteLine("shelf id: " + shelf.shelfId + " place left:" + shelf.placeInShelf); }
         }
-        public void press9()
-        {
-            sortFridgeByPlace(refrigerators);
-        }
+      
 
 
-        public void press10()
+        public void pressed10()
         {
             this.goShopping();
         }
 
-        static void press100()
+        public void presssed100()
         {
             Console.WriteLine("bye bye ");
         }

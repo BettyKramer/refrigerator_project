@@ -3,7 +3,7 @@ using refrigerator;
 
 public class Program
 {
- 
+
     public static List<Refrigerator> sortFridgeByPlace(List<Refrigerator> refrigerators)
     {
         List<Refrigerator> sortedByPlace = new List<Refrigerator>();
@@ -18,6 +18,7 @@ public class Program
         return sortedByPlace;
 
     }
+
 
     public static void showMenu()
     {
@@ -40,17 +41,8 @@ public class Program
             "shopping\r\nPress 100: system shutdown.");
     }
 
-   
-
-
-  
-
-
-  
-
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-
         List<Refrigerator> myFriges = new List<Refrigerator>();
 
         //fiil 1 frg
@@ -88,37 +80,37 @@ public class Program
             switch (choise)
             {
                 case 1:
-                    myFriges[0].press1();
+                    myFriges[0].pressed1();
                     break;
                 case 2:
-                    press2(myFriges[0]);
+                    myFriges[0].pressed2();
                     break;
                 case 3:
-                    press3(myFriges[0]);
+                    myFriges[0].pressed3();
                     break;
                 case 4:
-                    press4(myFriges[0]);
+                    myFriges[0].pressed4();
                     break;
                 case 5:
-                    press5(myFriges[0]);
+                    myFriges[0].pressed5();
                     break;
                 case 6:
-                    press6(myFriges[0]);
+                    myFriges[0].pressed6();
                     break;
                 case 7:
-                    press7(myFriges[0]);
+                    myFriges[0].pressed7();
                     break;
                 case 8:
-                    press8(myFriges[0]);
+                    myFriges[0].pressed8();
                     break;
                 case 9:
-                    press9(myFriges);
+                    sortFridgeByPlace(myFriges);
                     break;
                 case 10:
-                    press10(myFriges[0]);
+                    myFriges[0].pressed10();
                     break;
                 case 100:
-                    press100(myFriges[0]);
+                    myFriges[0].presssed100();
                     break;
             }
         }
