@@ -59,7 +59,7 @@
         }   
 
 
-        public Item getItemFromShelf(int itemid)
+        public Item GetItemFromShelf(int itemid)
         {
             foreach (Item item in this.Items)
             {
@@ -73,7 +73,7 @@
             return null;
         }
 
-        public void throwEexpired()
+        public void ThrowEexpired()
         {
             foreach(Item item in this.Items)
             {

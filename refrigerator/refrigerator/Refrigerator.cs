@@ -50,11 +50,11 @@ namespace refrigerator
         }
 
         //4
-        public Item getItemFromRfrigerator(int itemid)
+        public Item GetItemFromRfrigerator(int itemid)
         {
             foreach (Shelf shelf in Shelves)
             {
-                Item item = shelf.getItemFromShelf(itemid);
+                Item item = shelf.GetItemFromShelf(itemid);
                 if (item != null) 
                 {
                     shelf.PlaceInShelf += item.Size;
@@ -65,7 +65,7 @@ namespace refrigerator
             return null;
         }
 
-        public Item getItemByName(string name)  
+        public Item GetItemByName(string name)  
         {
             foreach (Shelf shelf in Shelves)
             {
@@ -85,7 +85,7 @@ namespace refrigerator
         }
 
         //5
-        public void throwExpired()
+        public void ThrowExpired()
         {
             foreach (Shelf shelf in this.Shelves)
             {
@@ -104,7 +104,7 @@ namespace refrigerator
         }
 
         //6
-        public List<Item> itemsYouCanEat(int foodType, int foodKashrut)
+        public List<Item> ItemsYouCanEat(int foodType, int foodKashrut)
         {
             List<Item> itemToEat = new List<Item>();
             foreach (Shelf shelf in Shelves)
@@ -122,7 +122,7 @@ namespace refrigerator
         }
 
         //8
-        public List<Item> sortByExpiryDate()
+        public List<Item> SortByExpiryDate()
         {
             List<Item> sortedByExpiry = new List<Item>();
             foreach (Shelf shelf in Shelves)
@@ -133,7 +133,7 @@ namespace refrigerator
             return sortedByExpiry;
         }
 
-        public List<Shelf> sortByLeftSpace()
+        public List<Shelf> SortByLeftSpace()
         {
             List<Shelf> sortedBySpace = new List<Shelf>();
             foreach (Shelf shelf in Shelves)
@@ -145,7 +145,7 @@ namespace refrigerator
         }
 
 
-        public void printAllItems()
+        public void PrintAllItems()
         {
             Console.WriteLine("items in the refrigerator: ");
             foreach (Shelf shelf in Shelves)
@@ -156,7 +156,7 @@ namespace refrigerator
 
 
 
-        public List<Item> deleteByParameter(int foodKashrut, int days)
+        public List<Item> DeleteByParameter(int foodKashrut, int days)
         {
             List<Item> toThrow = new List<Item>();
             foreach (Shelf shelf in Shelves)
@@ -175,12 +175,12 @@ namespace refrigerator
 
         }
 
-        public void returnItem(List<Item> items, int i)
+        public void ReturnItem(List<Item> items, int i)
         {
             this.Shelves[i].Items.AddRange(items);
         }
 
-        public int sumSpace(List<Item> items)
+        public int GetSumSpace(List<Item> items)
         {
             int sum = 0;
             foreach (Item item in items)
@@ -190,22 +190,22 @@ namespace refrigerator
             return sum;
         }
 
-        public void goShopping()
+        public void GoShopping()
         {
             List<Item> toThrowItem = new List<Item>();
             if (this.GetFreeSpace() >= 29) { Console.WriteLine("you can go shopping now"); }
             else
             {
                 if (this.GetFreeSpace() >= 20) { Console.WriteLine("you can go shopping"); }
-                else { this.throwExpired(); }
+                else { this.ThrowExpired(); }
 
                 if (this.GetFreeSpace() >= 20) { Console.WriteLine("you can go shopping"); }
 
                 else
                 {
 
-                    toThrowItem = this.deleteByParameter(1, 3);
-                    if (this.GetFreeSpace() + sumSpace(toThrowItem) >= 20)
+                    toThrowItem = this.DeleteByParameter(1, 3);
+                    if (this.GetFreeSpace() + GetSumSpace(toThrowItem) >= 20)
                     {
                         Console.WriteLine("we threw the next items: ");
                         foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
@@ -214,8 +214,8 @@ namespace refrigerator
                     else
                     {
                         List<Item> toThrowItem2 = new List<Item>();
-                        toThrowItem2 = this.deleteByParameter(2, 7);
-                        if (this.GetFreeSpace() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) >= 20)
+                        toThrowItem2 = this.DeleteByParameter(2, 7);
+                        if (this.GetFreeSpace() + GetSumSpace(toThrowItem) + GetSumSpace(toThrowItem2) >= 20)
                         {
                             Console.WriteLine("we threw the next items: ");
                             foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
@@ -225,8 +225,8 @@ namespace refrigerator
                         else
                         {
                             List<Item> toThrowItem3 = new List<Item>();
-                            toThrowItem3 = this.deleteByParameter(0, 2);
-                            if (this.GetFreeSpace() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) + sumSpace(toThrowItem3) >= 20)
+                            toThrowItem3 = this.DeleteByParameter(0, 2);
+                            if (this.GetFreeSpace() + GetSumSpace(toThrowItem) + GetSumSpace(toThrowItem2) + GetSumSpace(toThrowItem3) >= 20)
                             {
                                 Console.WriteLine("we threw the next items: ");
                                 foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
@@ -236,9 +236,9 @@ namespace refrigerator
                             }
                             else
                             {
-                                returnItem(toThrowItem, 0);
-                                returnItem(toThrowItem2, 1);
-                                returnItem(toThrowItem3, 2);
+                                ReturnItem(toThrowItem, 0);
+                                ReturnItem(toThrowItem2, 1);
+                                ReturnItem(toThrowItem3, 2);
                                 Console.WriteLine("you can't go shopping right now");
                             }
 
@@ -265,18 +265,18 @@ namespace refrigerator
         }
 
 
-        public void printDetails()
+        public void PrintDetails()
         {
             this.ToString();
-            this.printAllItems();
+            this.PrintAllItems();
         }
 
-        public void placeLeftInFridge()
+        public void PlaceLeftInFridge()
         {
             Console.WriteLine("place left in the fridge: " + this.GetFreeSpace());
         }
 
-        public void addItem()
+        public void AddItem()
         {
             Console.WriteLine("enter name");
             string input = Console.ReadLine();
@@ -353,47 +353,47 @@ namespace refrigerator
             Console.WriteLine("we didnt find a place in the fridge");
         }
 
-        public void removeItem()
+        public void RemoveItem()
         {
             Console.WriteLine("please the enter item you want to remove");
             string input = Console.ReadLine();
-            this.getItemByName(input);
+            this.GetItemByName(input);
         }
 
 
 
-        public void cleanFridge() { this.throwExpired(); }
+        public void CleanFridge() { this.ThrowExpired(); }
 
-        public void eat()
+        public void Eat()
         {
             Console.WriteLine("what do you want to eat?");
             string name = Console.ReadLine();
-            Item item = this.getItemByName(name);
+            Item item = this.GetItemByName(name);
             Console.WriteLine("here is your item: ");
             item.ToString();
 
         }
 
-        public void printByExpiryDtae( )
+        public void PrintByExpiryDtae( )
         {
-            List<Item> items = this.sortByExpiryDate();
+            List<Item> items = this.SortByExpiryDate();
             foreach (Item item in items) { Console.WriteLine(item.Name + " the expiry date: " + item.ExpiryDate); }
         }
 
-        public void printShelvesByPlace()
+        public void PrintShelvesByPlace()
         {
-            List<Shelf> shelves = this.sortByLeftSpace();
+            List<Shelf> shelves = this.SortByLeftSpace();
             foreach (Shelf shelf in shelves) { Console.WriteLine("shelf id: " + shelf.Id + " place left:" + shelf.PlaceInShelf); }
         }
       
 
 
-        public void prepereForShopping()
+        public void PrepereForShopping()
         {
-            this.goShopping();
+            this.GoShopping();
         }
 
-        public void shutDown()
+        public void ShutDown()
         {
             Console.WriteLine("bye bye ");
         }

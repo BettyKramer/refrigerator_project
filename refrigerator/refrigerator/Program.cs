@@ -4,7 +4,7 @@ using refrigerator;
 public class Program
 {
 
-    public static List<Refrigerator> sortFridgeByPlace(List<Refrigerator> refrigerators)
+    public static List<Refrigerator> SortFridgeByPlace(List<Refrigerator> refrigerators)
     {
         List<Refrigerator> sortedByPlace = new List<Refrigerator>();
         sortedByPlace = refrigerators.OrderByDescending(refrigerator => refrigerator.GetFreeSpace()).ToList();
@@ -20,7 +20,7 @@ public class Program
     }
 
 
-    public static void showMenu()
+    public static void ShowMenu()
     {
         Console.WriteLine();
         Console.WriteLine("Press 1: the program will print " +
@@ -66,7 +66,7 @@ public class Program
 
         while (choise != 100)
         {
-            showMenu();
+            ShowMenu();
             try
             {
                 choise = Convert.ToInt32(Console.ReadLine());
@@ -80,37 +80,37 @@ public class Program
             switch (choise)
             {
                 case 1:
-                    myFriges[0].printDetails();
+                    myFriges[0].PrintDetails();
                     break;
                 case 2:
-                    myFriges[0].placeLeftInFridge();
+                    myFriges[0].PlaceLeftInFridge();
                     break;
                 case 3:
-                    myFriges[0].addItem();
+                    myFriges[0].AddItem();
                     break;
                 case 4:
-                    myFriges[0].removeItem();
+                    myFriges[0].RemoveItem();
                     break;
                 case 5:
-                    myFriges[0].cleanFridge();
+                    myFriges[0].CleanFridge();
                     break;
                 case 6:
-                    myFriges[0].eat();
+                    myFriges[0].Eat();
                     break;
                 case 7:
-                    myFriges[0].printByExpiryDtae();
+                    myFriges[0].PrintByExpiryDtae();
                     break;
                 case 8:
-                    myFriges[0].printShelvesByPlace();
+                    myFriges[0].PrintShelvesByPlace();
                     break;
                 case 9:
-                    sortFridgeByPlace(myFriges);
+                    SortFridgeByPlace(myFriges);
                     break;
                 case 10:
-                    myFriges[0].prepereForShopping();
+                    myFriges[0].PrepereForShopping();
                     break;
                 case 100:
-                    myFriges[0].shutDown();
+                    myFriges[0].ShutDown();
                     break;
             }
         }
