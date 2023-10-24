@@ -7,12 +7,12 @@ public class Program
     public static List<Refrigerator> sortFridgeByPlace(List<Refrigerator> refrigerators)
     {
         List<Refrigerator> sortedByPlace = new List<Refrigerator>();
-        sortedByPlace = refrigerators.OrderByDescending(refrigerator => refrigerator.placeLeftInRefrigerator()).ToList();
+        sortedByPlace = refrigerators.OrderByDescending(refrigerator => refrigerator.GetFreeSpace()).ToList();
         foreach (Refrigerator refrigerator in sortedByPlace)
         {
             Console.WriteLine("fridge details: ");
             refrigerator.ToString();
-            Console.WriteLine("place left in the fridge: " + refrigerator.placeLeftInRefrigerator());
+            Console.WriteLine("place left in the fridge: " + refrigerator.GetFreeSpace());
             Console.WriteLine();
         }
         return sortedByPlace;
@@ -46,7 +46,7 @@ public class Program
         List<Refrigerator> myFriges = new List<Refrigerator>();
 
         //fiil 1 frg
-        Refrigerator rfg = new Refrigerator();
+        Refrigerator rfg = new Refrigerator(0,"bosh","grey",5);
         Refrigerator rfg2 = new Refrigerator(1, "samsung", "black", 3);
 
         Shelf shelf = new Shelf(21, 1, 50);

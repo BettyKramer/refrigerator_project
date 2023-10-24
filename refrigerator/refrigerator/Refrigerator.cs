@@ -18,18 +18,11 @@ namespace refrigerator
         public List<Shelf> Shelves { get;set; }
 
 
-       public Refrigerator()
-        {
-            Id = 1;
-            this.Model = "bocsh";
-            this.Color = "grey";
-            this.NumberOfShelves = 5;
-            Shelves = new List<Shelf>();
-        }
+       
 
-        public Refrigerator(int refId,string model, string color,int numOfShelves)
+        public Refrigerator(int Id,string model, string color,int numOfShelves)
         {
-            this.Id = refId;
+            this.Id = Id;
             this.Model = model;
             this.Color = color;
             this.NumberOfShelves = numOfShelves;
@@ -46,7 +39,7 @@ namespace refrigerator
         }
 
         //2
-        public int placeLeftInRefrigerator()
+        public int GetFreeSpace()
         {
             int sum = 0;
             foreach(Shelf shelf in Shelves)
@@ -200,19 +193,19 @@ namespace refrigerator
         public void goShopping()
         {
             List<Item> toThrowItem = new List<Item>();
-            if (this.placeLeftInRefrigerator() >= 29) { Console.WriteLine("you can go shopping now"); }
+            if (this.GetFreeSpace() >= 29) { Console.WriteLine("you can go shopping now"); }
             else
             {
-                if (this.placeLeftInRefrigerator() >= 20) { Console.WriteLine("you can go shopping"); }
+                if (this.GetFreeSpace() >= 20) { Console.WriteLine("you can go shopping"); }
                 else { this.throwExpired(); }
 
-                if (this.placeLeftInRefrigerator() >= 20) { Console.WriteLine("you can go shopping"); }
+                if (this.GetFreeSpace() >= 20) { Console.WriteLine("you can go shopping"); }
 
                 else
                 {
 
                     toThrowItem = this.deleteByParameter(1, 3);
-                    if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) >= 20)
+                    if (this.GetFreeSpace() + sumSpace(toThrowItem) >= 20)
                     {
                         Console.WriteLine("we threw the next items: ");
                         foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
@@ -222,7 +215,7 @@ namespace refrigerator
                     {
                         List<Item> toThrowItem2 = new List<Item>();
                         toThrowItem2 = this.deleteByParameter(2, 7);
-                        if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) >= 20)
+                        if (this.GetFreeSpace() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) >= 20)
                         {
                             Console.WriteLine("we threw the next items: ");
                             foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
@@ -233,7 +226,7 @@ namespace refrigerator
                         {
                             List<Item> toThrowItem3 = new List<Item>();
                             toThrowItem3 = this.deleteByParameter(0, 2);
-                            if (this.placeLeftInRefrigerator() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) + sumSpace(toThrowItem3) >= 20)
+                            if (this.GetFreeSpace() + sumSpace(toThrowItem) + sumSpace(toThrowItem2) + sumSpace(toThrowItem3) >= 20)
                             {
                                 Console.WriteLine("we threw the next items: ");
                                 foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
@@ -280,7 +273,7 @@ namespace refrigerator
 
         public void placeLeftInFridge()
         {
-            Console.WriteLine("place left in the fridge: " + this.placeLeftInRefrigerator());
+            Console.WriteLine("place left in the fridge: " + this.GetFreeSpace());
         }
 
         public void addItem()
