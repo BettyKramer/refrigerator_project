@@ -273,18 +273,18 @@ namespace refrigerator
         }
 
 
-        public void pressed1()
+        public void printDetails()
         {
             this.toString();
             this.printAllItems();
         }
 
-        public void pressed2()
+        public void placeLeftInFridge()
         {
             Console.WriteLine("place left in the fridge: " + this.placeLeftInRefrigerator());
         }
 
-        public void pressed3()
+        public void addItem()
         {
             Console.WriteLine("enter name");
             string input = Console.ReadLine();
@@ -361,7 +361,7 @@ namespace refrigerator
             Console.WriteLine("we didnt find a place in the fridge");
         }
 
-        public void pressed4()
+        public void removeItem()
         {
             Console.WriteLine("please the enter item you want to remove");
             string input = Console.ReadLine();
@@ -370,9 +370,9 @@ namespace refrigerator
 
 
 
-        public void pressed5() { this.throwExpired(); }
+        public void cleanFridge() { this.throwExpired(); }
 
-        public void pressed6()
+        public void eat()
         {
             Console.WriteLine("what do you want to eat?");
             string name = Console.ReadLine();
@@ -382,13 +382,13 @@ namespace refrigerator
 
         }
 
-        public void pressed7( )
+        public void printByExpiryDtae( )
         {
             List<Item> items = this.sortByExpiryDate();
             foreach (Item item in items) { Console.WriteLine(item.Name + " the expiry date: " + item.expiryDate); }
         }
 
-        public void pressed8()
+        public void printShelvesByPlace()
         {
             List<Shelf> shelves = this.sortByLeftSpace();
             foreach (Shelf shelf in shelves) { Console.WriteLine("shelf id: " + shelf.shelfId + " place left:" + shelf.placeInShelf); }
@@ -396,12 +396,12 @@ namespace refrigerator
       
 
 
-        public void pressed10()
+        public void prepereForShopping()
         {
             this.goShopping();
         }
 
-        public void presssed100()
+        public void shutDown()
         {
             Console.WriteLine("bye bye ");
         }

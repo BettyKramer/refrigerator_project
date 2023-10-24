@@ -80,37 +80,37 @@ public class Program
             switch (choise)
             {
                 case 1:
-                    myFriges[0].pressed1();
+                    myFriges[0].printDetails();
                     break;
                 case 2:
-                    myFriges[0].pressed2();
+                    myFriges[0].placeLeftInFridge();
                     break;
                 case 3:
-                    myFriges[0].pressed3();
+                    myFriges[0].addItem();
                     break;
                 case 4:
-                    myFriges[0].pressed4();
+                    myFriges[0].removeItem();
                     break;
                 case 5:
-                    myFriges[0].pressed5();
+                    myFriges[0].cleanFridge();
                     break;
                 case 6:
-                    myFriges[0].pressed6();
+                    myFriges[0].eat();
                     break;
                 case 7:
-                    myFriges[0].pressed7();
+                    myFriges[0].printByExpiryDtae();
                     break;
                 case 8:
-                    myFriges[0].pressed8();
+                    myFriges[0].printShelvesByPlace();
                     break;
                 case 9:
                     sortFridgeByPlace(myFriges);
                     break;
                 case 10:
-                    myFriges[0].pressed10();
+                    myFriges[0].prepereForShopping();
                     break;
                 case 100:
-                    myFriges[0].presssed100();
+                    myFriges[0].shutDown();
                     break;
             }
         }
