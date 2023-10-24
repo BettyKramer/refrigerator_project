@@ -2,64 +2,70 @@
 {
     public class Shelf
     {
-        public int shelfId { get; set; }
-        public int floorNumber { get; set; }
+        public int Id { get; set; }
 
-        public int placeInShelf { get; set; }
+        public int FloorNumber { get; set; }
 
-        public List<Item> items;
+        public int PlaceInShelf { get; set; }
+
+        public List<Item> Items;
         public Item getItem()
         {
-            return this.items[0];
+            return this.Items[0];
         }
 
         public Shelf(int shelfId, int floorNumber, int placeInShelf)
         {
-            this.shelfId = shelfId;
-            this.floorNumber = floorNumber;
-            this.placeInShelf = placeInShelf;
-            this.items =new List<Item>();
+            this.Id = shelfId;
+            this.FloorNumber = floorNumber;
+            this.PlaceInShelf = placeInShelf;
+            this.Items =new List<Item>();
         }
 
         public Shelf()
         {
-            this.shelfId = 1;
-            this.floorNumber = 1;
-            this.placeInShelf = 100;
-            this.items = new List<Item>();
+            this.Id = 1;
+            this.FloorNumber = 1;
+            this.PlaceInShelf = 100;
+            this.Items = new List<Item>();
         }
 
         public int getPlaceInShelf()
         {
             int sum = 0;
-            foreach (Item item in this.items)
+            foreach (Item item in this.Items)
             {
-                sum += item.size;
+                sum += item.Size;
             }
-            return this.placeInShelf - sum;
+            return this.PlaceInShelf - sum;
         }
 
 
         //3
         public void addItem(Item item)
         {
-            this.items.Add(item);
-            this.placeInShelf -= item.size;
+            this.Items.Add(item);
+            this.PlaceInShelf -= item.Size;
         }
 
-        public void toString()
+       
+   
+        public override string ToString()
         {
-            Console.WriteLine("self id: " + shelfId + " floor number: " + floorNumber + " place in shelf: " + placeInShelf);
-        }
+            string str = $"self id: {Id} floor number: {FloorNumber} place in shelf:{PlaceInShelf}";
+            return str;
+
+
+        }   
 
 
         public Item getItemFromShelf(int itemid)
         {
-            foreach (Item item in this.items)
+            foreach (Item item in this.Items)
             {
                 if (itemid == item.Id)
                 {
-                    this.placeInShelf += item.size;
+                    this.PlaceInShelf += item.Size;
                     return item;
                 }
                    
@@ -69,13 +75,13 @@
 
         public void throwEexpired()
         {
-            foreach(Item item in this.items)
+            foreach(Item item in this.Items)
             {
-                if (item.expiryDate < DateTime.Today)
+                if (item.ExpiryDate < DateTime.Today)
                 {
                     Console.WriteLine("found something expired"+item.Name);
-                    this.items.Remove(item);
-                    this.placeInShelf += item.size;
+                    this.Items.Remove(item);
+                    this.PlaceInShelf += item.Size;
                 }
             }
         }

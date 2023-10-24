@@ -11,7 +11,7 @@ public class Program
         foreach (Refrigerator refrigerator in sortedByPlace)
         {
             Console.WriteLine("fridge details: ");
-            refrigerator.toString();
+            refrigerator.ToString();
             Console.WriteLine("place left in the fridge: " + refrigerator.placeLeftInRefrigerator());
             Console.WriteLine();
         }
@@ -54,9 +54,9 @@ public class Program
         Shelf shelf2 = new Shelf(23, 3, 200);
 
 
-        rfg.shelves.Add(shelf);
-        rfg.shelves.Add(shelf1);
-        rfg2.shelves.Add(shelf2);
+        rfg.Shelves.Add(shelf);
+        rfg.Shelves.Add(shelf1);
+        rfg2.Shelves.Add(shelf2);
 
         myFriges.Add(rfg);
         myFriges.Add(rfg2);

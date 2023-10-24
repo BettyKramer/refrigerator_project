@@ -10,10 +10,10 @@
 
         public int ShelfNumber { get; set; }
        
-        public DateTime expiryDate { get; set; }
-        public int size { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public int Size { get; set; }
 
-        public int type { set; get; }
+        public int Type { set; get; }
         public int Kashrut { set; get; }
 
 
@@ -22,16 +22,18 @@
            
             this.Name = itemName;
             this.Id = id;
-            this.type = foodType;
+            this.Type = foodType;
             this.Kashrut = foodKasher;
-            this.expiryDate = epx;
-            this.size = size;
+            this.ExpiryDate = epx;
+            this.Size = size;
         }
-     
-        public void toString()
+
+        public override string ToString()
         {
-            Console.WriteLine($"item name:  {Name}  item id:  { Id}   type: { type}  kasher: { Kashrut} expiry date:{expiryDate} size:{ size}");
+            string str = $"item name:  {Name}  item id:  {Id}   type: {Type}  kasher: {Kashrut} expiry date:{ExpiryDate} size:{Size}";
+            return str ;
         }
+
 
     
     }
