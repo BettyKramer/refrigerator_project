@@ -5,7 +5,6 @@ using System.Text;
 
 public class Program
 {
-
     public static List<Refrigerator> SortFridgeByPlace(List<Refrigerator> refrigerators)
     {
         List<Refrigerator> sortedByPlace = new List<Refrigerator>();
@@ -18,25 +17,22 @@ public class Program
             Console.WriteLine();
         }
         return sortedByPlace;
-
     }
-
-
     public static void ShowMenu()
     {
         Console.WriteLine();
         StringBuilder sb = new StringBuilder();
-        sb.Append("Press 1: the program will print all the items on the refrigerator and all its contents");
-        sb.Append("Click 2: the program will print how much space is left in the fridge");
-        sb.Append("Press 3: The program will allow the user to put an item in the refrigerator.");
-        sb.Append("Press 4: The program will allow the user to remove an item from the refrigerator");
-        sb.Append("Press 5: the program will clean the refrigerator and print all the checked items to the user.");
-        sb.Append("Press 6: the program will ask the user What do I want to eat and bring the function to bring a product.");
-        sb.Append("Click 7: the program will print all the products sorted by their expiration date.");
-        sb.Append("Press 8: the program will print all the shelves arranged according to the free space left on them.");
-        sb.Append("Press 9: the program will print all the refrigerators arranged according to the free space left in them.");
-        sb.Append("Click 10: The program will prepare the refrigerator for shopping");
-        sb.Append("Press 100: system shutdown.");
+        sb.AppendLine("Press 1: the program will print all the items on the refrigerator and all its contents");
+        sb.AppendLine("Click 2: the program will print how much space is left in the fridge");
+        sb.AppendLine("Press 3: The program will allow the user to put an item in the refrigerator.");
+        sb.AppendLine("Press 4: The program will allow the user to remove an item from the refrigerator");
+        sb.AppendLine("Press 5: the program will clean the refrigerator and print all the checked items to the user.");
+        sb.AppendLine("Press 6: the program will ask the user What do I want to eat and bring the function to bring a product.");
+        sb.AppendLine("Click 7: the program will print all the products sorted by their expiration date.");
+        sb.AppendLine("Press 8: the program will print all the shelves arranged according to the free space left on them.");
+        sb.AppendLine("Press 9: the program will print all the refrigerators arranged according to the free space left in them.");
+        sb.AppendLine("Click 10: The program will prepare the refrigerator for shopping");
+        sb.AppendLine("Press 100: system shutdown.");
         Console.WriteLine(sb.ToString());
     }
 
@@ -52,7 +48,6 @@ public class Program
         Shelf shelf1 = new Shelf(22, 2, 100);
         Shelf shelf2 = new Shelf(23, 3, 200);
 
-
         refrigerator.Shelves.Add(shelf);
         refrigerator.Shelves.Add(shelf1);
         refrigerator2.Shelves.Add(shelf2);
@@ -60,8 +55,7 @@ public class Program
         refrigerators.Add(refrigerator);
         refrigerators.Add(refrigerator2);
 
-
-        int choise = 1;
+        int choise = 0;
 
         while (choise != 100)
         {
@@ -88,13 +82,19 @@ public class Program
                     refrigerators[0].AddItem();
                     break;
                 case 4:
-                    refrigerators[0].RemoveItem();
+                    Console.WriteLine("please the enter item you want to remove");
+                    Int32.TryParse(Console.ReadLine(), out int ItenId);
+                    refrigerators[0].RemoveItemById(ItenId);
                     break;
                 case 5:
-                    refrigerators[0].CleanFridge();
+                    Console.WriteLine(refrigerators[0].ThrowExpired()); 
                     break;
                 case 6:
-                    refrigerators[0].Eat();
+                    Console.WriteLine("what do you want to eat? enter 1 for food. 2 for drink");
+                    Int32.TryParse(Console.ReadLine(), out int type);
+                    Console.WriteLine("enter 1 for meat. 2 for dairy. 3for parve");
+                    Int32.TryParse(Console.ReadLine(), out int kashrut);
+                    refrigerators[0].Eat(type,kashrut);
                     break;
                 case 7:
                     refrigerators[0].PrintByExpiryDtae();
@@ -106,10 +106,10 @@ public class Program
                     SortFridgeByPlace(refrigerators);
                     break;
                 case 10:
-                    refrigerators[0].PrepereForShopping();
+                    refrigerators[0].GoShopping(); 
                     break;
                 case 100:
-                    refrigerators[0].ShutDown();
+                    Console.WriteLine("bye bye ");
                     break;
             }
         }

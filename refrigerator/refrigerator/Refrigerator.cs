@@ -47,48 +47,35 @@ namespace refrigerator
         }
 
         //4
-        public Item GetItemById(int itemId)
+        public Item RemoveItemById(int itemId)
         {
             Item item = null;
-
-            Shelves.ForEach(shef => item = shef.GetItemFromShelf(itemId));
-
-            Console.WriteLine("the item is not here");
-
+            Shelves.ForEach(shef => item = shef.RemoveItemFromShelf(itemId));
             return item;
         }
-
-        //public string GetItemById(int id)
-        //{
-        //   Shelves.ForEach(shef => shef.Id == id);
-        //}
-
-        //5
-        public void ThrowExpired()
+        public string ThrowExpired()
         {
+            string str = "found something expired :  ";
             foreach (Shelf shelf in this.Shelves)
             {
                 for (int i = 0; i < shelf.Items.Count; i++)
                 {
                     if (shelf.Items[i].ExpiryDate < DateTime.Today)
                     {
-                        string str = "found something expired :  " + shelf.Items[i].Name;
+                        str +=" "+shelf.Items[i].Name;
                         shelf.FreeSpace += shelf.Items[i].Size;
                         shelf.Items.Remove(shelf.Items[i]);
                     }
                 }
             }
+            return str;
         }
-
         public bool CheckItem (Item item, int foodType, int foodKashrut)
         {
             if (item.ExpiryDate <= DateTime.Today && item.Type == foodType && item.Kashrut == foodKashrut)
                 return true;
             return false;
         }
-
-
-
         //6
         public List<Item> GetItemsYouCanEat(int foodType, int foodKashrut)
         {
@@ -105,7 +92,6 @@ namespace refrigerator
             }
             return itemToEat;
         }
-
         //8
         public List<Item> SortByExpiryDate()
         {
@@ -117,7 +103,6 @@ namespace refrigerator
             sortedByExpiry.Sort((x, y) => DateTime.Compare(x.ExpiryDate, y.ExpiryDate));
             return sortedByExpiry;
         }
-
         public List<Shelf> SortByLeftSpace()
         {
             List<Shelf> sortedBySpace = new List<Shelf>();
@@ -128,8 +113,6 @@ namespace refrigerator
             sortedBySpace.Sort((x, y) => x.FreeSpace.CompareTo(y.FreeSpace));
             return sortedBySpace;
         }
-
-
         public void PrintAllItems()
         {
             Console.WriteLine("items in the refrigerator: ");
@@ -138,9 +121,6 @@ namespace refrigerator
                 foreach (Item item in shelf.Items) { Console.WriteLine(item.Name); }
             }
         }
-
-
-
         public List<Item> DeleteByParameter(int foodKashrut, int days)
         {
             List<Item> toThrow = new List<Item>();
@@ -153,18 +133,14 @@ namespace refrigerator
                         toThrow.Add(shelf.Items[i]);
                         shelf.Items.Remove(shelf.Items[i]);
                     }
-
                 }
             }
             return toThrow;
-
         }
-
         public void ReturnItem(List<Item> items, int i)
         {
             this.Shelves[i].Items.AddRange(items);
         }
-
         public int GetSumSpace(List<Item> items)
         {
             int sum = 0;
@@ -173,7 +149,6 @@ namespace refrigerator
 
             return sum;
         }
-
         public void GoShopping()
         {
             List<Item> toThrowItem = new List<Item>();
@@ -225,16 +200,11 @@ namespace refrigerator
                                 ReturnItem(toThrowItem3, 2);
                                 Console.WriteLine("you can't go shopping right now");
                             }
-
                         }
                     }
                 }
-
-
             }
         }
-
-
         public bool ValidateInput(string input, string type)
         {
             switch (type)
@@ -243,18 +213,14 @@ namespace refrigerator
                     return int.TryParse(input, out int val);
                 case "date":
                     return DateTime.TryParse(input, out DateTime val2);
-
             }
             return true;
         }
-
-
         public void PrintDetails()
         {
             this.ToString();
             this.PrintAllItems();
         }
-
         public void AddItem()
         {
             Console.WriteLine("enter name");
@@ -331,36 +297,20 @@ namespace refrigerator
             }
             Console.WriteLine("we didnt find a place in the fridge");
         }
-
-        public void RemoveItem()
+        public void Eat(int type, int kashrut)
         {
-            Console.WriteLine("please the enter item you want to remove");
-            Int32.TryParse(Console.ReadLine(), out int ItenId);
-            
-            this.GetItemById(ItenId);
-        }
-
-
-
-        public void CleanFridge() { this.ThrowExpired(); }
-
-        public void Eat()
-        {
-            Console.WriteLine("what do you want to eat?");
-            
-            Int32.TryParse(Console.ReadLine(), out int itemId);
-
-            Item item = this.GetItemById(itemId);
-
+            Item item = null;
+            Shelves.ForEach(shelf=>item = shelf.GetItemByTypeAndKashrut(type,kashrut));
             Console.WriteLine("here is your item: ");
             item.ToString();
-
         }
-
         public void PrintByExpiryDtae()
         {
             List<Item> items = this.SortByExpiryDate();
-            foreach (Item item in items) { Console.WriteLine(item.Name + " the expiry date: " + item.ExpiryDate); }
+            foreach (Item item in items)
+            { 
+                Console.WriteLine(item.Name + " the expiry date: " + item.ExpiryDate);
+            }
         }
         public void PrintShelvesByPlace()
         {
@@ -370,20 +320,6 @@ namespace refrigerator
                 Console.WriteLine("shelf id: " + shelf.Id + " place left:" + shelf.FreeSpace);
             }
         }
-
-
-
-        public void PrepereForShopping()
-        {
-            this.GoShopping();
-        }
-
-        public void ShutDown()
-        {
-            Console.WriteLine("bye bye ");
-        }
-
-
     }
 }
 
