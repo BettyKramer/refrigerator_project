@@ -12,13 +12,9 @@ namespace refrigerator
         public string Model { get; }
         public string Color { get; }
 
-
         public int NumberOfShelves { get; set; }
 
         public List<Shelf> Shelves { get; set; }
-
-
-
 
         public Refrigerator(int Id, string model, string color, int numOfShelves)
         {
@@ -28,16 +24,11 @@ namespace refrigerator
             this.NumberOfShelves = numOfShelves;
             Shelves = new List<Shelf>();
         }
-
-
-
-
         public override string ToString()
         {
             string str = $"refrigerator id: {Id} model:{Model} color:{Color} num of shelves: {NumberOfShelves}";
             return str;
         }
-
         //2
         public int GetFreeSpace()
         {
@@ -45,7 +36,6 @@ namespace refrigerator
             Shelves.Sum(sh => sum += sh.FreeSpace);
             return sum;
         }
-
         //4
         public Item RemoveItemById(int itemId)
         {
@@ -62,7 +52,7 @@ namespace refrigerator
                 {
                     if (shelf.Items[i].ExpiryDate < DateTime.Today)
                     {
-                        str +=" "+shelf.Items[i].Name;
+                        str += " " + shelf.Items[i].Name;
                         shelf.FreeSpace += shelf.Items[i].Size;
                         shelf.Items.Remove(shelf.Items[i]);
                     }
@@ -70,7 +60,7 @@ namespace refrigerator
             }
             return str;
         }
-        public bool CheckItem (Item item, int foodType, int foodKashrut)
+        public bool CheckItem(Item item, int foodType, int foodKashrut)
         {
             if (item.ExpiryDate <= DateTime.Today && item.Type == foodType && item.Kashrut == foodKashrut)
                 return true;
@@ -84,7 +74,7 @@ namespace refrigerator
             {
                 foreach (Item item in shelf.Items)
                 {
-                    if (CheckItem(item,foodType,foodKashrut))
+                    if (CheckItem(item, foodType, foodKashrut))
                     {
                         itemToEat.Add(item);
                     }
@@ -128,7 +118,7 @@ namespace refrigerator
             {
                 for (int i = 0; i < shelf.Items.Count; i++)
                 {
-                    if (shelf.Items[i] != null && shelf.Items[i].Kashrut == foodKashrut && shelf.Items[i].ExpiryDate.AddDays(3) >= DateTime.Today)
+                    if (shelf.Items[i] != null && shelf.Items[i].Kashrut == foodKashrut && shelf.Items[i].ExpiryDate.AddDays(days) >= DateTime.Today)
                     {
                         toThrow.Add(shelf.Items[i]);
                         shelf.Items.Remove(shelf.Items[i]);
@@ -149,57 +139,79 @@ namespace refrigerator
 
             return sum;
         }
-        public void GoShopping()
+        public bool CheckIfCanGo(int space1, int space2)
         {
-            List<Item> toThrowItem = new List<Item>();
-            if (this.GetFreeSpace() >= 29) { Console.WriteLine("you can go shopping now"); }
+            if (this.GetFreeSpace() >= space1)
+            {
+                return true;
+            }
             else
             {
-                if (this.GetFreeSpace() >= 20) { Console.WriteLine("you can go shopping"); }
-                else { this.ThrowExpired(); }
+                if (this.GetFreeSpace() >= space2)
+                {
+                    return true;
+                }
+                else
+                { this.ThrowExpired(); }
 
-                if (this.GetFreeSpace() >= 20) { Console.WriteLine("you can go shopping"); }
-
+                if (this.GetFreeSpace() >= space2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool CheckToDelete(List<Item> toThrowItem, int space)
+        {
+            if (this.GetFreeSpace() + GetSumSpace(toThrowItem) >= space)
+            {
+                Console.WriteLine("we threw the next items: ");
+                foreach (Item item in toThrowItem)
+                { Console.WriteLine(item.Name); }
+                return true;
+            }
+            return false;
+        }
+        public void GoShopping()
+        {
+            const int twenty = 20;
+            const int twentyNine = 29;
+            List<Item> toThrowItem = new List<Item>();
+            if (CheckIfCanGo(twenty, twentyNine))
+            {
+                Console.WriteLine("you can go now");
+                return;
+            }
+            else
+            {
+                toThrowItem = this.DeleteByParameter(2, 3);
+                if (CheckToDelete(toThrowItem, twenty))
+                {
+                    Console.WriteLine("you can go now");
+                    return;
+                }
                 else
                 {
-
-                    toThrowItem = this.DeleteByParameter(1, 3);
-                    if (this.GetFreeSpace() + GetSumSpace(toThrowItem) >= 20)
+                    toThrowItem.AddRange(this.DeleteByParameter(2, 7));
+                    if (CheckToDelete(toThrowItem, twenty))
                     {
-                        Console.WriteLine("we threw the next items: ");
-                        foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
                         Console.WriteLine("you can go now");
+                        return;
                     }
+
                     else
                     {
-                        List<Item> toThrowItem2 = new List<Item>();
-                        toThrowItem2 = this.DeleteByParameter(2, 7);
-                        if (this.GetFreeSpace() + GetSumSpace(toThrowItem) + GetSumSpace(toThrowItem2) >= 20)
+                        toThrowItem.AddRange(this.DeleteByParameter(0, 2));
+                        if (CheckToDelete(toThrowItem, twenty))
                         {
-                            Console.WriteLine("we threw the next items: ");
-                            foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
-                            foreach (Item item in toThrowItem2) { Console.WriteLine(item.Name); }
                             Console.WriteLine("you can go now");
+                            return;
                         }
+
                         else
                         {
-                            List<Item> toThrowItem3 = new List<Item>();
-                            toThrowItem3 = this.DeleteByParameter(0, 2);
-                            if (this.GetFreeSpace() + GetSumSpace(toThrowItem) + GetSumSpace(toThrowItem2) + GetSumSpace(toThrowItem3) >= 20)
-                            {
-                                Console.WriteLine("we threw the next items: ");
-                                foreach (Item item in toThrowItem) { Console.WriteLine(item.Name); }
-                                foreach (Item item in toThrowItem2) { Console.WriteLine(item.Name); }
-                                foreach (Item item in toThrowItem3) { Console.WriteLine(item.Name); }
-                                Console.WriteLine("you can go now");
-                            }
-                            else
-                            {
-                                ReturnItem(toThrowItem, 0);
-                                ReturnItem(toThrowItem2, 1);
-                                ReturnItem(toThrowItem3, 2);
-                                Console.WriteLine("you can't go shopping right now");
-                            }
+                            ReturnItem(toThrowItem, 0);
+                            Console.WriteLine("you can't go shopping right now");
                         }
                     }
                 }
@@ -299,24 +311,21 @@ namespace refrigerator
         }
         public void Eat(int type, int kashrut)
         {
-            Item item = null;
-            Shelves.ForEach(shelf=>item = shelf.GetItemByTypeAndKashrut(type,kashrut));
-            Console.WriteLine("here is your item: ");
-            item.ToString();
+            Shelves.ForEach(shelf => shelf.GetItemByTypeAndKashrut(type, kashrut)); 
         }
         public void PrintByExpiryDtae()
         {
             List<Item> items = this.SortByExpiryDate();
             foreach (Item item in items)
-            { 
+            {
                 Console.WriteLine(item.Name + " the expiry date: " + item.ExpiryDate);
             }
         }
         public void PrintShelvesByPlace()
         {
             List<Shelf> shelves = this.SortByLeftSpace();
-            foreach (Shelf shelf in shelves) 
-            { 
+            foreach (Shelf shelf in shelves)
+            {
                 Console.WriteLine("shelf id: " + shelf.Id + " place left:" + shelf.FreeSpace);
             }
         }

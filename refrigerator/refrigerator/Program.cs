@@ -69,7 +69,6 @@ public class Program
                 Console.WriteLine("Iligal Choise");
                 choise = 100;
             }
-
             switch (choise)
             {
                 case 1:

@@ -81,11 +81,16 @@ namespace refrigerator
                 }
             }
         }
-        public Item GetItemByTypeAndKashrut(int type, int kashrut)
+        public void GetItemByTypeAndKashrut(int type, int kashrut)
         {
-            Item item= this.Items.Find(item =>item.Type==type&&item.Kashrut==kashrut);
-            RemoveItemFromShelf(item.Id);
-            return item;
+            Item item = this.Items.Find(item => item.Type == type && item.Kashrut == kashrut);
+            if (item != null)
+            {
+                Console.WriteLine("here is your item: ");
+                Console.WriteLine(item.ToString());
+                RemoveItemFromShelf(item.Id);
+                return;
+            }
         }
     }
 }
