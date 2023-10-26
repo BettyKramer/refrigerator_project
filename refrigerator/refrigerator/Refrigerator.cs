@@ -11,16 +11,16 @@ namespace refrigerator
         public int Id { get; }
         public string Model { get; }
         public string Color { get; }
-   
-     
+
+
         public int NumberOfShelves { get; set; }
 
-        public List<Shelf> Shelves { get;set; }
+        public List<Shelf> Shelves { get; set; }
 
 
-       
 
-        public Refrigerator(int Id,string model, string color,int numOfShelves)
+
+        public Refrigerator(int Id, string model, string color, int numOfShelves)
         {
             this.Id = Id;
             this.Model = model;
@@ -34,88 +34,73 @@ namespace refrigerator
 
         public override string ToString()
         {
-            string str=$"refrigerator id: { Id} model:{ Model} color:{ Color} num of shelves: {NumberOfShelves}";
-            return str ;
+            string str = $"refrigerator id: {Id} model:{Model} color:{Color} num of shelves: {NumberOfShelves}";
+            return str;
         }
 
         //2
         public int GetFreeSpace()
         {
             int sum = 0;
-            foreach(Shelf shelf in Shelves)
-            {
-                sum += shelf.PlaceInShelf;
-            }
+            Shelves.Sum(sh => sum += sh.FreeSpace);
             return sum;
         }
 
         //4
-        public Item GetItemFromRfrigerator(int itemid)
+        public Item GetItemById(int itemId)
         {
-            foreach (Shelf shelf in Shelves)
-            {
-                Item item = shelf.GetItemFromShelf(itemid);
-                if (item != null) 
-                {
-                    shelf.PlaceInShelf += item.Size;
-                    return item; 
-                }
-            }
+            Item item = null;
+
+            Shelves.ForEach(shef => item = shef.GetItemFromShelf(itemId));
+
             Console.WriteLine("the item is not here");
-            return null;
+
+            return item;
         }
 
-        public Item GetItemByName(string name)  
-        {
-            foreach (Shelf shelf in Shelves)
-            {
-                foreach (Item item in shelf.Items)
-                {
-                    if (item.Name.Equals(name))
-                    {
-                        shelf.PlaceInShelf += item.Size;
-                        shelf.Items.Remove(item);
-                        Console.WriteLine("we removed your item");
-                        return item;
-                    }
-                }
-            }
-            Console.WriteLine("there is no such an item");
-            return null;
-        }
+        //public string GetItemById(int id)
+        //{
+        //   Shelves.ForEach(shef => shef.Id == id);
+        //}
 
         //5
         public void ThrowExpired()
         {
             foreach (Shelf shelf in this.Shelves)
             {
-                for(int i = 0;i < shelf.Items.Count ;i++)
+                for (int i = 0; i < shelf.Items.Count; i++)
                 {
                     if (shelf.Items[i].ExpiryDate < DateTime.Today)
                     {
                         string str = "found something expired :  " + shelf.Items[i].Name;
-                        shelf.PlaceInShelf += shelf.Items[i].Size;
+                        shelf.FreeSpace += shelf.Items[i].Size;
                         shelf.Items.Remove(shelf.Items[i]);
-                        
                     }
                 }
-                
             }
         }
 
+        public bool CheckItem (Item item, int foodType, int foodKashrut)
+        {
+            if (item.ExpiryDate <= DateTime.Today && item.Type == foodType && item.Kashrut == foodKashrut)
+                return true;
+            return false;
+        }
+
+
+
         //6
-        public List<Item> ItemsYouCanEat(int foodType, int foodKashrut)
+        public List<Item> GetItemsYouCanEat(int foodType, int foodKashrut)
         {
             List<Item> itemToEat = new List<Item>();
             foreach (Shelf shelf in Shelves)
             {
                 foreach (Item item in shelf.Items)
                 {
-                    if (item.ExpiryDate <= DateTime.Today && item.Type == foodType && item.Kashrut == foodKashrut)
+                    if (CheckItem(item,foodType,foodKashrut))
                     {
                         itemToEat.Add(item);
                     }
-
                 }
             }
             return itemToEat;
@@ -140,7 +125,7 @@ namespace refrigerator
             {
                 sortedBySpace.Add(shelf);
             }
-            sortedBySpace.Sort((x,y)=>x.PlaceInShelf.CompareTo(y.PlaceInShelf));
+            sortedBySpace.Sort((x, y) => x.FreeSpace.CompareTo(y.FreeSpace));
             return sortedBySpace;
         }
 
@@ -150,7 +135,7 @@ namespace refrigerator
             Console.WriteLine("items in the refrigerator: ");
             foreach (Shelf shelf in Shelves)
             {
-                foreach(Item item in shelf.Items) { Console.WriteLine(item.Name); }
+                foreach (Item item in shelf.Items) { Console.WriteLine(item.Name); }
             }
         }
 
@@ -161,9 +146,9 @@ namespace refrigerator
             List<Item> toThrow = new List<Item>();
             foreach (Shelf shelf in Shelves)
             {
-                for(int i=0; i<shelf.Items.Count;i++)
+                for (int i = 0; i < shelf.Items.Count; i++)
                 {
-                    if (shelf.Items[i]!=null&&shelf.Items[i].Kashrut == foodKashrut && shelf.Items[i].ExpiryDate.AddDays(3) >= DateTime.Today)
+                    if (shelf.Items[i] != null && shelf.Items[i].Kashrut == foodKashrut && shelf.Items[i].ExpiryDate.AddDays(3) >= DateTime.Today)
                     {
                         toThrow.Add(shelf.Items[i]);
                         shelf.Items.Remove(shelf.Items[i]);
@@ -183,10 +168,9 @@ namespace refrigerator
         public int GetSumSpace(List<Item> items)
         {
             int sum = 0;
-            foreach (Item item in items)
-            {
-                sum += item.Size;
-            }
+            foreach (Shelf shelf in Shelves)
+                sum += shelf.Items.Sum(x => x.Size);
+
             return sum;
         }
 
@@ -251,7 +235,7 @@ namespace refrigerator
         }
 
 
-        public  bool ValidateInput(string input, string type)
+        public bool ValidateInput(string input, string type)
         {
             switch (type)
             {
@@ -269,11 +253,6 @@ namespace refrigerator
         {
             this.ToString();
             this.PrintAllItems();
-        }
-
-        public void PlaceLeftInFridge()
-        {
-            Console.WriteLine("place left in the fridge: " + this.GetFreeSpace());
         }
 
         public void AddItem()
@@ -341,10 +320,10 @@ namespace refrigerator
             Item item = new Item(name, id, foodOdrink, kasher, date, size);
             foreach (Shelf shelf in this.Shelves)
             {
-                if (shelf.PlaceInShelf >= item.Size)
+                if (shelf.FreeSpace >= item.Size)
                 {
                     shelf.Items.Add(item);
-                    shelf.PlaceInShelf -= item.Size;
+                    shelf.FreeSpace -= item.Size;
                     Console.WriteLine("we added your item");
                     return;
                 }
@@ -356,8 +335,9 @@ namespace refrigerator
         public void RemoveItem()
         {
             Console.WriteLine("please the enter item you want to remove");
-            string input = Console.ReadLine();
-            this.GetItemByName(input);
+            Int32.TryParse(Console.ReadLine(), out int ItenId);
+            
+            this.GetItemById(ItenId);
         }
 
 
@@ -367,25 +347,30 @@ namespace refrigerator
         public void Eat()
         {
             Console.WriteLine("what do you want to eat?");
-            string name = Console.ReadLine();
-            Item item = this.GetItemByName(name);
+            
+            Int32.TryParse(Console.ReadLine(), out int itemId);
+
+            Item item = this.GetItemById(itemId);
+
             Console.WriteLine("here is your item: ");
             item.ToString();
 
         }
 
-        public void PrintByExpiryDtae( )
+        public void PrintByExpiryDtae()
         {
             List<Item> items = this.SortByExpiryDate();
             foreach (Item item in items) { Console.WriteLine(item.Name + " the expiry date: " + item.ExpiryDate); }
         }
-
         public void PrintShelvesByPlace()
         {
             List<Shelf> shelves = this.SortByLeftSpace();
-            foreach (Shelf shelf in shelves) { Console.WriteLine("shelf id: " + shelf.Id + " place left:" + shelf.PlaceInShelf); }
+            foreach (Shelf shelf in shelves) 
+            { 
+                Console.WriteLine("shelf id: " + shelf.Id + " place left:" + shelf.FreeSpace);
+            }
         }
-      
+
 
 
         public void PrepereForShopping()

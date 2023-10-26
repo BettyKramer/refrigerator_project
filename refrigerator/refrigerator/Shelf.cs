@@ -1,4 +1,7 @@
-﻿namespace refrigerator
+﻿using System.Xml.Linq;
+using System;
+
+namespace refrigerator
 {
     public class Shelf
     {
@@ -6,7 +9,7 @@
 
         public int FloorNumber { get; set; }
 
-        public int PlaceInShelf { get; set; }
+        public int FreeSpace { get; set; }
 
         public List<Item> Items;
         public Item getItem()
@@ -18,45 +21,45 @@
         {
             this.Id = shelfId;
             this.FloorNumber = floorNumber;
-            this.PlaceInShelf = placeInShelf;
-            this.Items =new List<Item>();
+            this.FreeSpace = placeInShelf;
+            this.Items = new List<Item>();
         }
 
         public Shelf()
         {
             this.Id = 1;
             this.FloorNumber = 1;
-            this.PlaceInShelf = 100;
+            this.FreeSpace = 100;
             this.Items = new List<Item>();
         }
 
-        public int getPlaceInShelf()
-        {
-            int sum = 0;
-            foreach (Item item in this.Items)
-            {
-                sum += item.Size;
-            }
-            return this.PlaceInShelf - sum;
-        }
+        //public int getPlaceInShelf()
+        //{
+        //    int sum = 0;
+        //    Items.Sum(x => sum += x.Size);
+
+        //    return this.FreeSpace - sum;
+
+
+        //}
 
 
         //3
-        public void addItem(Item item)
+        public void AddItem(Item item)
         {
             this.Items.Add(item);
-            this.PlaceInShelf -= item.Size;
+            this.FreeSpace -= item.Size;
         }
 
-       
-   
+
+
         public override string ToString()
         {
-            string str = $"self id: {Id} floor number: {FloorNumber} place in shelf:{PlaceInShelf}";
+            string str = $"self id: {Id} floor number: {FloorNumber} place in shelf:{FreeSpace}";
             return str;
 
 
-        }   
+        }
 
 
         public Item GetItemFromShelf(int itemid)
@@ -65,23 +68,41 @@
             {
                 if (itemid == item.Id)
                 {
-                    this.PlaceInShelf += item.Size;
+                    this.FreeSpace += item.Size;
                     return item;
                 }
-                   
+
             }
             return null;
         }
+        public Item GetItem(string name) { 
+             foreach(Item item in this.Items)
+            {
+                if (item.Name.Equals(name))
+                {
+                    this.FreeSpace += item.Size;
+                    this.Items.Remove(item);
+                    Console.WriteLine("we removed your item");
+                    return item;
+                }
+            }
+            Console.WriteLine("we didnt find your item");
+            return null;
+        }
+        
+                  
 
-        public void ThrowEexpired()
+
+
+public void ThrowEexpired()
         {
-            foreach(Item item in this.Items)
+            foreach (Item item in this.Items)
             {
                 if (item.ExpiryDate < DateTime.Today)
                 {
-                    Console.WriteLine("found something expired"+item.Name);
+                    Console.WriteLine("found something expired" + item.Name);
                     this.Items.Remove(item);
-                    this.PlaceInShelf += item.Size;
+                    this.FreeSpace += item.Size;
                 }
             }
         }

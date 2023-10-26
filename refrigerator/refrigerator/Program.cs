@@ -1,5 +1,7 @@
 ﻿
 using refrigerator;
+using System.Diagnostics;
+using System.Text;
 
 public class Program
 {
@@ -23,43 +25,40 @@ public class Program
     public static void ShowMenu()
     {
         Console.WriteLine();
-        Console.WriteLine("Press 1: the program will print " +
-            "all the items on the refrigerator and all its " +
-            "contents.\r\nClick 2: the program will print how" +
-            " much space is left in the fridge\r\nPress 3: The" +
-            " program will allow the user to put an item in the" +
-            " refrigerator.\r\nPress 4: The program will allow " +
-            "the user to remove an item from the refrigerator.\r\nPress 5:" +
-            " the program will clean the refrigerator and print all the checked " +
-            "items to the user.\r\nPress 6: the program will ask the user &quot;What " +
-            "do I want to eat?&quot; and bring the function to bring a product.\r\nClick 7:" +
-            " the program will print all the products sorted by their expiration " +
-            "date.\r\nPress 8: the program will print all the shelves arranged " +
-            "according to the free space left on them.\r\nPress 9: the program will " +
-            "print all the refrigerators arranged according to the free space left" +
-            " in them.\r\nClick 10: The program will prepare the refrigerator for " +
-            "shopping\r\nPress 100: system shutdown.");
+        StringBuilder sb = new StringBuilder();
+        sb.Append("Press 1: the program will print all the items on the refrigerator and all its contents");
+        sb.Append("Click 2: the program will print how much space is left in the fridge");
+        sb.Append("Press 3: The program will allow the user to put an item in the refrigerator.");
+        sb.Append("Press 4: The program will allow the user to remove an item from the refrigerator");
+        sb.Append("Press 5: the program will clean the refrigerator and print all the checked items to the user.");
+        sb.Append("Press 6: the program will ask the user What do I want to eat and bring the function to bring a product.");
+        sb.Append("Click 7: the program will print all the products sorted by their expiration date.");
+        sb.Append("Press 8: the program will print all the shelves arranged according to the free space left on them.");
+        sb.Append("Press 9: the program will print all the refrigerators arranged according to the free space left in them.");
+        sb.Append("Click 10: The program will prepare the refrigerator for shopping");
+        sb.Append("Press 100: system shutdown.");
+        Console.WriteLine(sb.ToString());
     }
 
     public static void Main(string[] args)
     {
-        List<Refrigerator> myFriges = new List<Refrigerator>();
+        List<Refrigerator> refrigerators = new List<Refrigerator>();
 
         //fiil 1 frg
-        Refrigerator rfg = new Refrigerator(0,"bosh","grey",5);
-        Refrigerator rfg2 = new Refrigerator(1, "samsung", "black", 3);
+        Refrigerator refrigerator = new Refrigerator(0, "bosh", "grey", 5);
+        Refrigerator refrigerator2 = new Refrigerator(1, "samsung", "black", 3);
 
         Shelf shelf = new Shelf(21, 1, 50);
         Shelf shelf1 = new Shelf(22, 2, 100);
         Shelf shelf2 = new Shelf(23, 3, 200);
 
 
-        rfg.Shelves.Add(shelf);
-        rfg.Shelves.Add(shelf1);
-        rfg2.Shelves.Add(shelf2);
+        refrigerator.Shelves.Add(shelf);
+        refrigerator.Shelves.Add(shelf1);
+        refrigerator2.Shelves.Add(shelf2);
 
-        myFriges.Add(rfg);
-        myFriges.Add(rfg2);
+        refrigerators.Add(refrigerator);
+        refrigerators.Add(refrigerator2);
 
 
         int choise = 1;
@@ -80,37 +79,37 @@ public class Program
             switch (choise)
             {
                 case 1:
-                    myFriges[0].PrintDetails();
+                    Console.WriteLine(refrigerators[0].ToString());
+                    refrigerators[0].PrintDetails();
                     break;
                 case 2:
-                    myFriges[0].PlaceLeftInFridge();
-                    break;
+                    Console.WriteLine("place left in the fridge: " + refrigerators[0].GetFreeSpace());                    break;
                 case 3:
-                    myFriges[0].AddItem();
+                    refrigerators[0].AddItem();
                     break;
                 case 4:
-                    myFriges[0].RemoveItem();
+                    refrigerators[0].RemoveItem();
                     break;
                 case 5:
-                    myFriges[0].CleanFridge();
+                    refrigerators[0].CleanFridge();
                     break;
                 case 6:
-                    myFriges[0].Eat();
+                    refrigerators[0].Eat();
                     break;
                 case 7:
-                    myFriges[0].PrintByExpiryDtae();
+                    refrigerators[0].PrintByExpiryDtae();
                     break;
                 case 8:
-                    myFriges[0].PrintShelvesByPlace();
+                    refrigerators[0].PrintShelvesByPlace();
                     break;
                 case 9:
-                    SortFridgeByPlace(myFriges);
+                    SortFridgeByPlace(refrigerators);
                     break;
                 case 10:
-                    myFriges[0].PrepereForShopping();
+                    refrigerators[0].PrepereForShopping();
                     break;
                 case 100:
-                    myFriges[0].ShutDown();
+                    refrigerators[0].ShutDown();
                     break;
             }
         }
